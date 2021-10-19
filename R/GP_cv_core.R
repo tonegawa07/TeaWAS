@@ -28,7 +28,9 @@ GP_cv_core <- function(fold_split, phenotype_name, algorithm) {
 
   # rrBLUP ---------------------------------------------------------------------
   if (algorithm == "GBLUP(RR)" || algorithm == "GBLUP(GAUSS)") {
-
+    if (!requireNamespace("rrBLUP", quietly = TRUE)) {
+      stop('R package "rrBLUP" is required. Please install it.')
+    }
     res <- switch(algorithm,
                   "GBLUP(RR)"    = rrBLUP::kinship.BLUP(y = train_y,
                                                         G.train = train_x,
@@ -44,7 +46,9 @@ GP_cv_core <- function(fold_split, phenotype_name, algorithm) {
 
   # glmnet ---------------------------------------------------------------------
   } else if (algorithm == "Ridge" || algorithm == "Lasso" || algorithm == "ElasticNet") {
-
+    if (!requireNamespace("glmnet", quietly = TRUE)) {
+      stop('R package "glmnet" is required. Please install it.')
+    }
     mdl <- switch(algorithm,
                   "Ridge"      = glmnet::cv.glmnet(x = train_x,
                                                    y = train_y,
@@ -60,13 +64,15 @@ GP_cv_core <- function(fold_split, phenotype_name, algorithm) {
                                                    standardize = F),
                   stop('Only can use "Ridge", "Lasso" and "ElasticNet"')
     )
-    y_pred <- predict(mdl, newx = test_x, s = "lambda.min")
+    y_pred <- stats::predict(mdl, newx = test_x, s = "lambda.min")
 
   # randomForest ---------------------------------------------------------------
   } else if (algorithm == "RandomForest") {
-
+    if (!requireNamespace("randomForest", quietly = TRUE)) {
+      stop('R package "randomForest" is required. Please install it.')
+    }
     mdl <- randomForest::randomForest(x = train_x, y = train_y)
-    y_pred <- predict(mdl, newdata = test_x)
+    y_pred <- stats::predict(mdl, newdata = test_x)
 
   }
 

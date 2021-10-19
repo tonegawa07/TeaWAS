@@ -26,9 +26,8 @@ GP_cv <- function(phenotype, genotype, nfold, nrepeat, algorithm, outputdir) {
     # get phenotype name
     this_pheno <- colnames(phenotype)[n_pheno]
     # print information
-    print("", quote = F)
-    print(paste0("algorithm : ", this_algorithm), quote = F)
-    print(paste0("phenotype : No.", n_pheno, " ", this_pheno), quote = F)
+    cat(insight::print_color(paste0("algorithm : ", this_algorithm, "\n"), "green"))
+    cat(insight::print_color(paste0("phenotype : ", n_pheno, "/",ncol(phenotype), " ", this_pheno, "\n"), "green"))
     # make phenotype name dir
     dir.create(paste0(outputdir, "/", this_algorithm, "/", this_pheno))
     # get objective variable
@@ -60,10 +59,12 @@ GP_cv <- function(phenotype, genotype, nfold, nrepeat, algorithm, outputdir) {
         result_pheno %>%
         dplyr::bind_cols(result_rep)
     } # for loop (repeat)
+    # New line in console
+    cat("\n")
     # output result (phenotype scale)
     utils::write.csv(result_pheno,
-              file = paste0(outputdir, "/", this_algorithm, "/", this_pheno, "/GP_", nfold, "-fold_", nrepeat, "-repeat_Prediction.csv")
-              )
+                     file = paste0(outputdir, "/", this_algorithm, "/", this_pheno, "/GP_", nfold, "-fold_", nrepeat, "-repeat_Prediction.csv")
+                     )
     # result (algorithm scale)
     result_algo <- c(result_algo, pheno_name = list(result_pheno))
     names(result_algo)[n_pheno] <- this_pheno

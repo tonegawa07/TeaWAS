@@ -8,10 +8,10 @@ GP_evaluation <- function(prediction_df) {
 
   predicted_y <-
     prediction_df %>%
-    dplyr::select(starts_with("Rep"))
+    dplyr::select(dplyr::starts_with("Rep"))
   observed_y <-
     prediction_df %>%
-    dplyr::select(-starts_with("Rep")) %>%
+    dplyr::select(-dplyr::starts_with("Rep")) %>%
     as.matrix()
   # get phenotype name
   this_pheno <- colnames(observed_y)
@@ -50,15 +50,15 @@ GP_performance <- function(prediction_list) {
     list(
       R =
         performance_list %>%
-        purrr::map(~ {use_series(., R)}) %>%
+        purrr::map(~ {magrittr::use_series(., R)}) %>%
         purrr::reduce(dplyr::bind_cols),
       R2 =
         performance_list %>%
-        purrr::map(~ {use_series(., R2)}) %>%
+        purrr::map(~ {magrittr::use_series(., R2)}) %>%
         purrr::reduce(dplyr::bind_cols),
       RMSE =
         performance_list %>%
-        purrr::map(~ {use_series(., RMSE)}) %>%
+        purrr::map(~ {magrittr::use_series(., RMSE)}) %>%
         purrr::reduce(dplyr::bind_cols)
     ) %>%
     purrr::map(~ {
