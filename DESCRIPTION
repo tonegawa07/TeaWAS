@@ -19,7 +19,8 @@ Imports:
     magrittr,
     rsample,
     MLmetrics,
-    insight
+    insight,
+    tidyr
 Suggests: 
     rrBLUP,
     glmnet,
