@@ -64,7 +64,7 @@ GP_performance <- function(prediction_list) {
     purrr::map(~ {
         .x %>%
         dplyr::mutate(
-          n = as.numeric(stringr::str_extract_all(rownames(.), "[0-9]")),
+          n = as.numeric(unlist(stringr::str_extract_all(rownames(.), "[0-9]"))),
           algorithm = this_algorithm)
     })
   return(output)
