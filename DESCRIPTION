@@ -1,6 +1,10 @@
 Package: TeaWAS
 Title: GWAS and GP analysis of tea plant
+<<<<<<< HEAD
 Version: 0.1.1
+=======
+Version: 0.1.2
+>>>>>>> develop
 Authors@R: 
     person(given = "Yusuke",
            family = "Fukuda",

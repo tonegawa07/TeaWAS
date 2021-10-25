@@ -77,5 +77,6 @@ GP_cv_core <- function(fold_split, phenotype_name, algorithm) {
   }
 
   output <- data.frame(pred = y_pred)
+  colnames(output) <- "pred"
   return(output)
 }
