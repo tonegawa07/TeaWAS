@@ -26,7 +26,7 @@ GP_cv_repeat <- function(phenotype_list,
   y <-
     phenotype_list$data %>%
     as.data.frame() %>%
-    `rownames<-`(.$SampleNo) %>%
+    `rownames<-`(.$key) %>%
     dplyr::select(!!this_pheno := value)
   # make dataset (bind y & x)
   dataset <- cbind(y, genotype_matrix)

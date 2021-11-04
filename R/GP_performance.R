@@ -64,7 +64,7 @@ GP_performance <- function(prediction_list) {
     purrr::map(~ {
         .x %>%
         dplyr::mutate(
-          n = c(1:nrow(.)),
+          n = seq_len(nrow(.)),
           algorithm = this_algorithm)
     })
   return(output)

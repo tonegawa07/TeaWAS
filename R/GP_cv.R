@@ -2,8 +2,8 @@
 #'
 #' @importFrom dplyr %>%
 #'
-#' @param phenotype dataframe of phenotype
-#' @param genotype matrix of SNPs data
+#' @param phenotype dataframe of phenotype. rowname is a key number
+#' @param genotype matrix of SNPs data. rowname is a key number
 #' @param nfold Number of divisions for cross-validation
 #' @param nrepeat Number of prediction iterations
 #' @param algorithm Algorithm to be used
@@ -21,26 +21,23 @@ GP_cv <- function(phenotype,
   dir.create(paste0(outputdir, "/", algorithm))
   # phenotype dataframe
   phenotype <- phenotype %>% stats::na.omit()
-  # genotype matrix
-  geno_matrix <-
-    genotype %>%
-    dplyr::select(phenotype$SampleNo) %>%
-    t()
+
   # validation (sample size)
   cat(paste0("Sample size of phenotype : ", nrow(phenotype), "\n"))
-  cat(paste0("Sample size of genotype : ", nrow(geno_matrix), "\n"))
-  if (nrow(phenotype) != nrow(geno_matrix)) {
+  cat(paste0("Sample size of genotype : ", nrow(genotype), "\n"))
+  if (nrow(phenotype) != nrow(genotype)) {
     stop("Sample size of phenotype is not equal to sample size of genotype")
   }
   # result (algorithm scale)
   result_algo <-
     phenotype %>%
-    tidyr::pivot_longer(-SampleNo) %>%
+    dplyr::mutate(key = rownames(.)) %>%
+    tidyr::pivot_longer(-key) %>%
     dplyr::group_by(name) %>%
     tidyr::nest() %>%
     apply(1, as.list) %>%
     purrr::map(GP_cv_repeat,
-               genotype_matrix = geno_matrix,
+               genotype_matrix = genotype,
                nfold = nfold,
                nrepeat = nrepeat,
                algorithm = algorithm,
