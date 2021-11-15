@@ -2,32 +2,32 @@
 #'
 #' @importFrom dplyr %>%
 #'
-#' @param phenotype_list List of each phenotype
+#' @param phenotype_name name of each phenotype
+#' @param phenotype_data dataframe of each phenotype
 #' @param genotype_matrix Transposed genotype matrix with equal number of rows
 #' @param nfold Number of divisions for cross-validation
 #' @param nrepeat Number of prediction iterations
 #' @param algorithm Algorithm to be used
 #' @param outputdir Directory to output results
 #'
-GP_cv_repeat <- function(phenotype_list,
+GP_cv_repeat <- function(phenotype_name,
+                         phenotype_data,
                          genotype_matrix,
                          nfold,
                          nrepeat,
                          algorithm,
                          outputdir) {
-  # get phenotype name
-  this_pheno <- phenotype_list$name
   # print information
   cat(insight::print_color(paste0("Algorithm : ", algorithm, "\n"), "green"))
-  cat(insight::print_color(paste0("Phenotype : ", this_pheno, "\n"), "green"))
+  cat(insight::print_color(paste0("Phenotype : ", phenotype_name, "\n"), "green"))
   # make phenotype name dir
-  dir.create(paste0(outputdir, "/", algorithm, "/", this_pheno))
+  dir.create(paste0(outputdir, "/", algorithm, "/", phenotype_name))
   # get objective variable
   y <-
-    phenotype_list$data %>%
+    phenotype_data %>%
     as.data.frame() %>%
     `rownames<-`(.$key) %>%
-    dplyr::select(!!this_pheno := value)
+    dplyr::select(!!phenotype_name := value)
   # make dataset (bind y & x)
   dataset <- cbind(y, genotype_matrix)
   # result (phenotype scale)
@@ -45,7 +45,7 @@ GP_cv_repeat <- function(phenotype_list,
       rsample::vfold_cv(v = nfold) %>%
       magrittr::use_series(splits) %>%
       purrr::map(GP_cv_core,
-                 phenotype_name = this_pheno,
+                 phenotype_name = phenotype_name,
                  algorithm = algorithm) %>%
       purrr::reduce(dplyr::bind_rows) %>%
       dplyr::arrange(rownames(.)) %>%
@@ -59,10 +59,10 @@ GP_cv_repeat <- function(phenotype_list,
   cat("\n")
   # output result (phenotype scale)
   utils::write.csv(result_pheno,
-                   file = paste0(outputdir, "/", algorithm, "/", this_pheno, "/GP_", nfold, "-fold_", nrepeat, "-repeat_Prediction.csv"))
+                   file = paste0(outputdir, "/", algorithm, "/", phenotype_name, "/GP_", nfold, "-fold_", nrepeat, "-repeat_Prediction.csv"))
   # set output list (result (phenotype scale))
   output <- list(result_pheno)
-  names(output) <- this_pheno
+  names(output) <- phenotype_name
 
   return(output)
 }

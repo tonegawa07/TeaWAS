@@ -7,9 +7,9 @@
 GP_cv(phenotype, genotype, nfold, nrepeat, algorithm, outputdir)
 }
 \arguments{
-\item{phenotype}{dataframe of phenotype}
+\item{phenotype}{dataframe of phenotype. rowname is a key number}
 
-\item{genotype}{matrix of SNPs data}
+\item{genotype}{matrix of SNPs data. rowname is a key number}
 
 \item{nfold}{Number of divisions for cross-validation}
 

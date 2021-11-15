@@ -35,14 +35,22 @@ GP_cv <- function(phenotype,
     tidyr::pivot_longer(-key) %>%
     dplyr::group_by(name) %>%
     tidyr::nest() %>%
-    apply(1, as.list) %>%
-    purrr::map(GP_cv_repeat,
-               genotype_matrix = genotype,
-               nfold = nfold,
-               nrepeat = nrepeat,
-               algorithm = algorithm,
-               outputdir = outputdir) %>%
+    dplyr::mutate(
+      GP = purrr::map2(name, data,
+                       ~GP_cv_repeat(
+                          phenotype_name = .x,
+                          phenotype_data = .y,
+                          genotype_matrix = genotype,
+                          nfold = nfold,
+                          nrepeat = nrepeat,
+                          algorithm = algorithm,
+                          outputdir = outputdir))
+    ) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(GP) %>%
+    purrr::flatten() %>%
     purrr::flatten()
+
   # set output list (1st: algorithm name, 2nd: result (algorithm scale))
   output <-
     list(algorithm = algorithm,

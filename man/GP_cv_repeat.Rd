@@ -5,7 +5,8 @@
 \title{Genomic Prediction per phenotype}
 \usage{
 GP_cv_repeat(
-  phenotype_list,
+  phenotype_name,
+  phenotype_data,
   genotype_matrix,
   nfold,
   nrepeat,
@@ -14,7 +15,9 @@ GP_cv_repeat(
 )
 }
 \arguments{
-\item{phenotype_list}{List of each phenotype}
+\item{phenotype_name}{name of each phenotype}
+
+\item{phenotype_data}{dataframe of each phenotype}
 
 \item{genotype_matrix}{Transposed genotype matrix with equal number of rows}
 
