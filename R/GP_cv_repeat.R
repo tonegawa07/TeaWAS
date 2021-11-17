@@ -16,12 +16,15 @@ GP_cv_repeat <- function(phenotype_name,
                          nfold,
                          nrepeat,
                          algorithm,
-                         outputdir) {
+                         outputdir,
+                         output = TRUE) {
   # print information
   cat(insight::print_color(paste0("Algorithm : ", algorithm, "\n"), "green"))
   cat(insight::print_color(paste0("Phenotype : ", phenotype_name, "\n"), "green"))
   # make phenotype name dir
-  dir.create(paste0(outputdir, "/", algorithm, "/", phenotype_name))
+  if (output) {
+    dir.create(paste0(outputdir, "/", algorithm, "/", phenotype_name))
+  }
   # get objective variable
   y <-
     phenotype_data %>%
@@ -58,8 +61,10 @@ GP_cv_repeat <- function(phenotype_name,
   # New line in console
   cat("\n")
   # output result (phenotype scale)
-  utils::write.csv(result_pheno,
-                   file = paste0(outputdir, "/", algorithm, "/", phenotype_name, "/GP_", nfold, "-fold_", nrepeat, "-repeat_Prediction.csv"))
+  if (output) {
+    utils::write.csv(result_pheno,
+                     file = paste0(outputdir, "/", algorithm, "/", phenotype_name, "/GP_", nfold, "-fold_", nrepeat, "-repeat_Prediction.csv"))
+  }
   # set output list (result (phenotype scale))
   output <- list(result_pheno)
   names(output) <- phenotype_name
