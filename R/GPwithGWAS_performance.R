@@ -10,7 +10,14 @@ GPwithGWAS_evaluation <- function(list) {
                      ~ stringr::str_replace(., pattern = "X", replacement = ""))
 }
 
+#'
+#'
+#' @importFrom dplyr %>%
+#'
+#' @param list
+#'
 #' @export
+#'
 GPwithGWAS_performance <- function(list) {
 
   output <-
