@@ -2,4 +2,6 @@
 
 export(GP_cv)
 export(GP_performance)
+export(GPwithGWAS)
+export(GPwithGWAS_performance)
 importFrom(dplyr,"%>%")
