@@ -1,3 +1,5 @@
+#' @export
+
 GPwithGWAS <- function(phenotype, genotype, GWAS_result, nSNPs, nfold, nrepeat, algorithm, method, outputdir) {
 
   phenotype. <-
