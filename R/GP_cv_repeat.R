@@ -9,6 +9,7 @@
 #' @param nrepeat Number of prediction iterations
 #' @param algorithm Algorithm to be used
 #' @param outputdir Directory to output results
+#' @param output TRUE or FALSE
 #'
 GP_cv_repeat <- function(phenotype_name,
                          phenotype_data,

@@ -20,7 +20,9 @@ Imports:
     rsample,
     MLmetrics,
     insight,
-    tidyr
+    tidyr,
+    fs,
+    tibble
 Suggests: 
     rrBLUP,
     glmnet,

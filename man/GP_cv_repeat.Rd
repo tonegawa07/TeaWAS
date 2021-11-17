@@ -11,7 +11,8 @@ GP_cv_repeat(
   nfold,
   nrepeat,
   algorithm,
-  outputdir
+  outputdir,
+  output = TRUE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ GP_cv_repeat(
 \item{algorithm}{Algorithm to be used}
 
 \item{outputdir}{Directory to output results}
+
+\item{output}{TRUE or FALSE}
 }
 \description{
 Genomic Prediction per phenotype
