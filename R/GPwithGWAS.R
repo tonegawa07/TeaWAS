@@ -30,11 +30,10 @@ GPwithGWAS <- function(phenotype, genotype, GWAS_result, nSNPs, nfold, nrepeat, 
       tidyr::pivot_longer(cols = -c(1:3), values_to = "P") %>%
       dplyr::group_by(name) %>%
       tidyr::nest() %>%
-      dplyr::mutate(selected_SNPs =
-                      dplyr::case_whenpurrr::map(data,
-                                                 ~dplyr::slice(
-                                                   dplyr::arrange(.x, P),
-                                                   1:max(nSNPs)))
+      dplyr::mutate(selected_SNPs = purrr::map(data,
+                                               ~dplyr::slice(
+                                                 dplyr::arrange(.x, P),
+                                                 1:max(nSNPs)))
       ) %>%
       dplyr::select(-data) %>%
       dplyr::mutate(geno = purrr::map(selected_SNPs,
@@ -45,11 +44,10 @@ GPwithGWAS <- function(phenotype, genotype, GWAS_result, nSNPs, nfold, nrepeat, 
       tidyr::pivot_longer(cols = -c(1:3), values_to = "P") %>%
       dplyr::group_by(name) %>%
       tidyr::nest() %>%
-      dplyr::mutate(selected_SNPs =
-                      dplyr::case_whenpurrr::map(data,
-                                                 ~dplyr::slice(
-                                                   .x[sample(rownames(.x)),],
-                                                   1:max(nSNPs)))
+      dplyr::mutate(selected_SNPs = purrr::map(data,
+                                               ~dplyr::slice(
+                                                 .x[sample(rownames(.x)),],
+                                                 1:max(nSNPs)))
       ) %>%
       dplyr::select(-data) %>%
       dplyr::mutate(geno = purrr::map(selected_SNPs,
