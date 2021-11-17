@@ -15,7 +15,7 @@ GPwithGWAS_core <- function(list,
 
   for (i in seq_len(length(nSNPs))) {
     n_snp <- nSNPs[i]
-    print(n_snp)
+    cat(insight::print_color(paste0("nSNPs      : ", n_snp, "\n"), "green"))
 
     x <-
       list$geno %>%
