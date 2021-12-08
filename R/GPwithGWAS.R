@@ -70,6 +70,7 @@ GPwithGWAS <- function(phenotype, genotype, GWAS_result, nSNPs, nfold, nrepeat, 
                nfold = nfold,
                nrepeat = nrepeat,
                algorithm = algorithm,
+               method = method,
                outputdir = outputdir) %>%
     purrr::flatten()
 

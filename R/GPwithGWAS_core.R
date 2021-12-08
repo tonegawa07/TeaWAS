@@ -3,10 +3,11 @@ GPwithGWAS_core <- function(list,
                             nfold,
                             nrepeat,
                             algorithm,
+                            method,
                             outputdir) {
 
   phenotype_name <- list$name
-  phenotype_dir <- paste0(outputdir, "/", algorithm, "/", phenotype_name)
+  phenotype_dir <- paste0(outputdir, "/", algorithm, "/", method, "/", phenotype_name)
   fs::dir_create(phenotype_dir)
 
   y <- list$y
