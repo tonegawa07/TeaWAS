@@ -40,7 +40,7 @@ GPwithGWAS_performance <- function(list) {
     tidyr::pivot_wider(names_from = phenotype, values_from = value) %>%
     dplyr::mutate(
       nSNPs = stringr::str_replace_all(nSNPs, c("SNPs" = "")) %>% as.integer(),
-      algorithn = list$algorithm
+      algorithm = list$algorithm
       ) %>%
     dplyr::arrange(nSNPs)
 
